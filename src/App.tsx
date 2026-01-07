@@ -8,10 +8,13 @@ function App() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
 
+  const [volume, setVolume] = useState(1.0);
+
   useEffect(() => {
     const playAudio = async () => {
       if (audioRef.current) {
         try {
+          audioRef.current.volume = volume;
           await audioRef.current.play();
         } catch (err) {
           console.log("Autoplay blocked, waiting for interaction", err);
@@ -19,7 +22,7 @@ function App() {
       }
     };
     playAudio();
-  }, [hasInteracted]);
+  }, [hasInteracted]); // Keep dependency just on interaction for initial play
 
   const handleInteraction = () => {
     if (!hasInteracted) {
@@ -31,14 +34,31 @@ function App() {
   };
 
   const toggleAudio = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent double firing from container click
-    setHasInteracted(true);
+    e.stopPropagation();
+
+    if (!hasInteracted) {
+      setHasInteracted(true);
+      // Fire and forget webhook
+      fetch("https://nwh.foreignlands.space/webhook/5937ba46-050d-406c-9a1a-d9fb62e339fb", {
+        method: "POST",
+        body: JSON.stringify({ action: "play_click", timestamp: new Date().toISOString() })
+      }).catch(err => console.log("Webhook failed", err));
+    }
+
     if (audioRef.current) {
       if (audioRef.current.paused) {
         audioRef.current.play();
       } else {
         audioRef.current.pause();
       }
+    }
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
     }
   };
 
@@ -53,9 +73,23 @@ function App() {
       />
       <div className="app-container">
         <h1 className="responsive-text">permatripping</h1>
-        <button className="play-button" onClick={toggleAudio}>
-          {hasInteracted ? "Music Controls" : "Click Here for Music"}
-        </button>
+
+        {!hasInteracted ? (
+          <button className="play-button" onClick={toggleAudio}>
+            click here
+          </button>
+        ) : (
+          <div className="volume-control" onClick={(e) => e.stopPropagation()}>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onChange={handleVolumeChange}
+            />
+          </div>
+        )}
       </div>
       <audio ref={audioRef} src="/audio.mp3" loop />
     </div>
