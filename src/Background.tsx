@@ -1,9 +1,9 @@
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 import { useEffect, useRef } from 'react';
 
-import './Balatro.css';
+import './Background.css';
 
-interface BalatroProps {
+interface BackgroundProps {
   spinRotation?: number;
   spinSpeed?: number;
   offset?: [number, number];
@@ -120,13 +120,13 @@ void main() {
 }
 `;
 
-export default function Balatro({
+export default function Background({
   spinRotation = -2.0,
   spinSpeed = 7.0,
   offset = [0.0, 0.0],
-  color1 = '#DE443B',
-  color2 = '#006BB4',
-  color3 = '#162325',
+  color1 = '#FA8500',
+  color2 = '#FF0000',
+  color3 = '#B4883C',
   contrast = 3.5,
   lighting = 0.4,
   spinAmount = 0.25,
@@ -134,7 +134,7 @@ export default function Balatro({
   spinEase = 1.0,
   isRotate = false,
   mouseInteraction = true
-}: BalatroProps) {
+}: BackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -223,5 +223,5 @@ export default function Balatro({
     mouseInteraction
   ]);
 
-  return <div ref={containerRef} className="balatro-container" />;
+  return <div ref={containerRef} className="background-container" />;
 }

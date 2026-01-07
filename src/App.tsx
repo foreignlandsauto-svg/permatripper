@@ -1,19 +1,18 @@
-import Balatro from './Balatro';
+import Background from './Background';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <Balatro
+      <Background
         isRotate={true}
         mouseInteraction={true}
-        color1="#DE443B"
-        color2="#006BB4"
-        color3="#162325"
+        color1="#FA8500"
+        color2="#FF0000"
+        color3="#B4883C"
       />
-      <div style={{ position: 'relative', zIndex: 1, color: 'white', padding: '2rem' }}>
-        <h1>Balatro Background Effect</h1>
-        <p>Created with OGL and customized shaders.</p>
+      <div style={{ position: 'relative', zIndex: 1, color: 'white', padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
+        <h1 className="psychedelic-text">permatripper</h1>
       </div>
     </div>
   );
