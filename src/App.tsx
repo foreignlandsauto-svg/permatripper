@@ -25,7 +25,19 @@ function App() {
     if (!hasInteracted) {
       setHasInteracted(true);
       if (audioRef.current) {
+        audioRef.current.play().catch(e => console.log("Play failed", e));
+      }
+    }
+  };
+
+  const toggleAudio = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent double firing from container click
+    setHasInteracted(true);
+    if (audioRef.current) {
+      if (audioRef.current.paused) {
         audioRef.current.play();
+      } else {
+        audioRef.current.pause();
       }
     }
   };
@@ -39,10 +51,13 @@ function App() {
         color2="#FF0000"
         color3="#B4883C"
       />
-      <div style={{ position: 'relative', zIndex: 1, color: 'white', padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
+      <div className="app-container">
         <h1 className="responsive-text">permatripping</h1>
+        <button className="play-button" onClick={toggleAudio}>
+          {hasInteracted ? "Music Controls" : "Click Here for Music"}
+        </button>
       </div>
-      <audio ref={audioRef} src="/audio.mp3" loop style={{ display: 'none' }} />
+      <audio ref={audioRef} src="/audio.mp3" loop />
     </div>
   );
 }
