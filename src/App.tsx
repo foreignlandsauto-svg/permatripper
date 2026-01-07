@@ -1,10 +1,12 @@
-import Background from './Background';
+import PermatripperBackground from './PermatripperBackground';
 import './App.css';
+
+console.log("Permatripper Background Loaded v2");
 
 function App() {
   return (
     <div className="App">
-      <Background
+      <PermatripperBackground
         isRotate={true}
         mouseInteraction={true}
         color1="#FA8500"

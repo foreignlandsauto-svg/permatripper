@@ -1,7 +1,7 @@
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 import { useEffect, useRef } from 'react';
 
-import './Background.css';
+import './PermatripperBackground.css';
 
 interface BackgroundProps {
   spinRotation?: number;
@@ -120,7 +120,7 @@ void main() {
 }
 `;
 
-export default function Background({
+export default function PermatripperBackground({
   spinRotation = -2.0,
   spinSpeed = 7.0,
   offset = [0.0, 0.0],
